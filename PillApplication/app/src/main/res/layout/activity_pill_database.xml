@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".pillDatabaseActivity"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/titleText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Pill Database"
+        android:textAlignment="center"
+        android:textSize="40dp"
+        android:padding="10dp"
+        android:textStyle="bold"
+        />
+
+    <EditText
+        android:id="@+id/searchbar"
+        android:layout_width="275dp"
+        android:layout_height="wrap_content"
+        android:hint="Search"
+        android:textSize="25dp"
+        android:paddingLeft="10dp"
+        />
+
+    <Button
+        android:id="@+id/searchButton"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:text="Search"
+        android:layout_marginLeft="295dp"
+        android:layout_marginTop="-50dp"
+        android:backgroundTint="@color/black"
+        />
+
+    <Button
+        android:id="@+id/addNewPillButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Add a Pill"
+        android:layout_marginTop="10dp"
+        android:backgroundTint="@color/black"
+        />
+
+    <ScrollView
+        android:id="@+id/scroller"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none"
+        />
+
+
+    <Button
+        android:id="@+id/yourPillsButton"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:layout_marginTop="-50dp"
+        android:text="Your Pills"
+        android:layout_marginLeft="5dp"
+        android:backgroundTint="@color/black"
+        android:textColor="@color/white"
+        />
+
+    <Button
+        android:id="@+id/allPillsButton"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:layout_marginTop="-50dp"
+        android:text="All Pills"
+        android:layout_marginLeft="105dp"
+        android:backgroundTint="@color/black"
+        android:textColor="@color/white"
+        />
+
+    <Button
+        android:id="@+id/DoctorButton"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:layout_marginTop="-50dp"
+        android:text="Doctor's"
+        android:layout_marginLeft="205dp"
+        android:backgroundTint="@color/black"
+        android:textColor="@color/white"
+        />
+
+    <Button
+        android:id="@+id/historyButton"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:layout_marginTop="-50dp"
+        android:text="History"
+        android:layout_marginLeft="305dp"
+        android:backgroundTint="@color/black"
+        android:textColor="@color/white"
+        />
+
+</LinearLayout>

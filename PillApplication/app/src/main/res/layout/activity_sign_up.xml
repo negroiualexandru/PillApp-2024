@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SignUpActivity">
+
+    <TextView
+        android:id="@+id/titleText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="SIGN UP"
+        android:textSize="50dp"
+        android:textAlignment="center"
+        android:textStyle="bold"
+        android:padding="10dp"
+        android:layout_marginTop="0dp"
+        />
+
+    <TextView
+        android:id="@+id/usernameText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Username:"
+        android:padding="10dp"
+        android:textSize="30dp"
+        android:layout_marginTop="75dp"
+        />
+
+    <EditText
+        android:id="@+id/inputtedUsername"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="125dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="20dp"
+        android:gravity="left"
+        android:padding="10dp"
+        android:textSize="20dp"
+        />
+
+    <TextView
+        android:id="@+id/passwordText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Password:"
+        android:padding="10dp"
+        android:textSize="30dp"
+        android:layout_marginTop="200dp"
+        />
+
+    <EditText
+        android:id="@+id/inputtedPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="250dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="20dp"
+        android:gravity="left"
+        android:padding="10dp"
+        android:textSize="20dp"
+        />
+
+    <TextView
+        android:id="@+id/firstNameText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="First Name:"
+        android:padding="10dp"
+        android:textSize="30dp"
+        android:layout_marginTop="325dp"
+        />
+
+    <EditText
+        android:id="@+id/inputtedFirstName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="375dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="20dp"
+        android:gravity="left"
+        android:padding="10dp"
+        android:textSize="20dp"
+        android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        />
+
+    <TextView
+        android:id="@+id/lastNameText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Last Name:"
+        android:padding="10dp"
+        android:textSize="30dp"
+        android:layout_marginTop="450dp"
+        />
+
+    <EditText
+        android:id="@+id/inputtedLastName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="500dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="20dp"
+        android:gravity="left"
+        android:padding="10dp"
+        android:textSize="20dp"
+        android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        />
+
+    <EditText
+        android:id="@+id/inputtedAge"
+        android:layout_width="75dp"
+        android:layout_height="wrap_content"
+        android:hint="Age"
+        android:textSize="15dp"
+        android:padding="20dp"
+        android:inputType="number"
+        android:layout_marginTop="575dp"
+        android:layout_marginLeft="50dp"
+        />
+
+    <EditText
+        android:id="@+id/inputtedWeight"
+        android:layout_width="110dp"
+        android:layout_height="wrap_content"
+        android:hint="Weight (lb)"
+        android:textSize="15dp"
+        android:padding="20dp"
+        android:inputType="number"
+        android:layout_marginTop="575dp"
+        android:layout_marginLeft="135dp"
+        />
+
+    <EditText
+        android:id="@+id/inputtedHeight"
+        android:layout_width="110dp"
+        android:layout_height="wrap_content"
+        android:hint="Height (in)"
+        android:textSize="15dp"
+        android:padding="20dp"
+        android:inputType="number"
+        android:layout_marginTop="575dp"
+        android:layout_marginLeft="250dp"
+        />
+
+    <Button
+        android:id="@+id/SignUpButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:text="Sign Up"
+        android:textSize="30dp"
+        android:backgroundTint="@color/black"
+        android:paddingLeft="40dp"
+        android:paddingRight="40dp"
+        android:layout_marginTop="650dp"
+        android:layout_marginLeft="200dp"
+        />
+
+</RelativeLayout>
