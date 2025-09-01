@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.TypedValue;
@@ -253,50 +255,68 @@ public class pillDatabaseActivity extends AppCompatActivity {
         scroll.addView(layout);
     }
 
-    //set display
     public void display(LinearLayout layout, int size, ArrayList<Pill> pills) {
+        layout.removeAllViews(); // clear old views before adding new ones
+
+        float density = this.getResources().getDisplayMetrics().density;
+        int padding = (int) (density * 12);
+        int margin = (int) (density * 8);
+
         for (int i = 0; i < size; i++) {
-            //convert pixels to dp
-            float density = this.getResources().getDisplayMetrics().density;
-            int dp = (int) (density * 10);
+            Pill pill = pills.get(i);
 
-            //set the text
+            // container for each pill entry
+            LinearLayout card = new LinearLayout(this);
+            card.setOrientation(LinearLayout.VERTICAL);
+            card.setPadding(padding, padding, padding, padding);
+            LinearLayout.LayoutParams cardParams =
+                    new LinearLayout.LayoutParams(
+                            LinearLayout.LayoutParams.MATCH_PARENT,
+                            LinearLayout.LayoutParams.WRAP_CONTENT
+                    );
+            cardParams.setMargins(margin, margin, margin, margin);
+            card.setLayoutParams(cardParams);
+
+            // pill name + timing
             TextView textView = new TextView(this);
-            String message = pills.get(i).pillName + " | Timing: " + pills.get(i).pillTiming + " hours";
+            String message = pill.pillName + " • Every " + pill.pillTiming + " hrs";
             textView.setText(message);
+            textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
+            textView.setTextColor(Color.parseColor("#2C3E50"));
+            textView.setTypeface(Typeface.DEFAULT_BOLD);
 
-            //set the styling
-            textView.setPadding(dp,dp,dp,dp);
-            textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 25);
-
-            //add button
+            // button
             Button button = new Button(this);
-            String placeholder = "Add " + pills.get(i).pillName + " to your list";
+            String placeholder = "Add " + pill.pillName;
             button.setText(placeholder);
-            button.setPadding(dp,dp,dp,dp);
-            button.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 25);
+            button.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
+            LinearLayout.LayoutParams btnParams =
+                    new LinearLayout.LayoutParams(
+                            LinearLayout.LayoutParams.MATCH_PARENT,
+                            LinearLayout.LayoutParams.WRAP_CONTENT
+                    );
+            btnParams.topMargin = margin;
+            button.setLayoutParams(btnParams);
 
-            //add button functionality
-            String pillName = pills.get(i).pillName;
-            int pillTiming = pills.get(i).pillTiming;
-            button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    try {
-                        database.addPillToUser(user.username, pillName, pillTiming);
-                        Toast.makeText(getApplicationContext(), "Done",
-                                Toast.LENGTH_SHORT).show();
-                    } catch (android.database.sqlite.SQLiteConstraintException e) {
-                        Toast.makeText(getApplicationContext(), "Pill already added",
-                                Toast.LENGTH_SHORT).show();
-                    }
+            // add button functionality
+            String pillName = pill.pillName;
+            int pillTiming = pill.pillTiming;
+            button.setOnClickListener(view -> {
+                try {
+                    database.addPillToUser(user.username, pillName, pillTiming);
+                    Toast.makeText(getApplicationContext(), "Added " + pillName, Toast.LENGTH_SHORT).show();
+                } catch (android.database.sqlite.SQLiteConstraintException e) {
+                    Toast.makeText(getApplicationContext(), pillName + " already in list", Toast.LENGTH_SHORT).show();
                 }
             });
 
-            layout.addView(textView);
-            layout.addView(button);
+            // add to container
+            card.addView(textView);
+            card.addView(button);
+            layout.addView(card);
         }
     }
+
 
     //search bar functionality
     public ArrayList<Pill> search (String key, ArrayList<Pill> pills, int x, int y) {

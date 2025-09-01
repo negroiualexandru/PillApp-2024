@@ -1,104 +1,149 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".pillDatabaseActivity"
-    android:orientation="vertical">
+    android:background="#F5F5F5"
+    tools:context=".pillDatabaseActivity">
 
-    <TextView
-        android:id="@+id/titleText"
-        android:layout_width="match_parent"
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Pill Database"
-        android:textAlignment="center"
-        android:textSize="40dp"
-        android:padding="10dp"
-        android:textStyle="bold"
-        />
+        android:background="?attr/colorSurface"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-    <EditText
-        android:id="@+id/searchbar"
-        android:layout_width="275dp"
-        android:layout_height="wrap_content"
-        android:hint="Search"
-        android:textSize="25dp"
-        android:paddingLeft="10dp"
-        />
+        <TextView
+            android:id="@+id/titleText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-medium"
+            android:padding="16dp"
+            android:text="Pill Database"
+            android:textAlignment="center"
+            android:textColor="#2C3E50"
+            android:textSize="28sp"
+            android:textStyle="bold" />
+    </com.google.android.material.appbar.AppBarLayout>
 
-    <Button
-        android:id="@+id/searchButton"
-        android:layout_width="100dp"
+    <LinearLayout
+        android:id="@+id/searchLayout"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Search"
-        android:layout_marginLeft="295dp"
-        android:layout_marginTop="-50dp"
-        android:backgroundTint="@color/black"
-        />
+        android:orientation="horizontal"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:paddingTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/appBarLayout">
+
+        <EditText
+            android:id="@+id/searchbar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="Search for a pill"
+            android:padding="12dp"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/searchButton"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="Search"
+            android:textColor="#3498DB" />
+    </LinearLayout>
 
     <Button
         android:id="@+id/addNewPillButton"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Add a Pill"
-        android:layout_marginTop="10dp"
-        android:backgroundTint="@color/black"
-        />
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:backgroundTint="#3498DB"
+        android:paddingTop="12dp"
+        android:paddingBottom="12dp"
+        android:text="Add a New Pill"
+        android:textColor="#FFFFFF"
+        app:cornerRadius="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/searchLayout" />
 
     <ScrollView
         android:id="@+id/scroller"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scrollbars="none"
-        />
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/bottomNavLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/addNewPillButton"
+        android:fillViewport="true" />
 
-
-    <Button
-        android:id="@+id/yourPillsButton"
-        android:layout_width="100dp"
+    <LinearLayout
+        android:id="@+id/bottomNavLayout"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:layout_marginTop="-50dp"
-        android:text="Your Pills"
-        android:layout_marginLeft="5dp"
-        android:backgroundTint="@color/black"
-        android:textColor="@color/white"
-        />
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:background="#FFFFFF"
+        android:elevation="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
-    <Button
-        android:id="@+id/allPillsButton"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:layout_marginTop="-50dp"
-        android:text="All Pills"
-        android:layout_marginLeft="105dp"
-        android:backgroundTint="@color/black"
-        android:textColor="@color/white"
-        />
+        <Button
+            android:id="@+id/yourPillsButton"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Your Pills"
+            android:textColor="#95A5A6"
+            android:textSize="12sp"
+             />
 
-    <Button
-        android:id="@+id/DoctorButton"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:layout_marginTop="-50dp"
-        android:text="Doctor's"
-        android:layout_marginLeft="205dp"
-        android:backgroundTint="@color/black"
-        android:textColor="@color/white"
-        />
+        <Button
+            android:id="@+id/allPillsButton"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="All Pills"
+            android:textColor="#3498DB"
+            android:textStyle="bold"
+            android:textSize="12sp" />
 
-    <Button
-        android:id="@+id/historyButton"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:layout_marginTop="-50dp"
-        android:text="History"
-        android:layout_marginLeft="305dp"
-        android:backgroundTint="@color/black"
-        android:textColor="@color/white"
-        />
+        <Button
+            android:id="@+id/DoctorButton"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Appts"
+            android:textColor="#95A5A6"
+            android:textSize="12sp" />
 
-</LinearLayout>
+        <Button
+            android:id="@+id/historyButton"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="History"
+            android:textColor="#95A5A6"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

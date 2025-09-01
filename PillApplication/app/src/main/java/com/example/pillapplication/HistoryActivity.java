@@ -109,33 +109,58 @@ public class HistoryActivity extends AppCompatActivity {
         int color = 1;
         //display history of pills taken
         while(!consumptions.isEmpty()) {
-            //convert pixels to dp
             float density = this.getResources().getDisplayMetrics().density;
-            int dp = (int) (density * 10);
+            int dp = (int) (density * 12); // spacing
 
-            //set textView information
-            TextView textView = new TextView(this);
-            textView.setLayoutParams(new LinearLayout.LayoutParams
-                    (LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-            textView.setGravity(Gravity.CENTER);
             History curr = consumptions.pop();
+
             String message;
             if (curr.minTaken <= 9) {
                 message = curr.pillName + " at " + curr.hourTaken + ":0" + curr.minTaken;
             } else {
                 message = curr.pillName + " at " + curr.hourTaken + ":" + curr.minTaken;
             }
-            textView.setText(message);
-            textView.setPadding(dp, dp, dp, dp);
-            textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 35);
 
-            if (color % 2 == 1) {
-                textView.setBackgroundColor(Color.BLACK);
-                textView.setTextColor(Color.WHITE);
+            LinearLayout container = new LinearLayout(this);
+            container.setOrientation(LinearLayout.VERTICAL);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+            );
+            params.setMargins(dp, dp / 2, dp, dp / 2); // spacing between items
+            container.setLayoutParams(params);
+            container.setPadding(dp, dp, dp, dp);
+            container.setElevation(6 * density);
+
+            TextView textView = new TextView(this);
+            textView.setLayoutParams(new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+            ));
+            textView.setText(message);
+            textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
+            textView.setTextColor(Color.parseColor("#2C3E50"));
+            textView.setGravity(Gravity.START);
+
+            View accentBar = new View(this);
+            LinearLayout.LayoutParams barParams = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    (int) (density * 3)
+            );
+            barParams.topMargin = dp / 2;
+            accentBar.setLayoutParams(barParams);
+            if (color % 2 == 0) {
+                accentBar.setBackgroundColor(Color.parseColor("#3498DB")); // blue
+            } else {
+                accentBar.setBackgroundColor(Color.parseColor("#2ECC71")); // green
             }
 
+            container.addView(textView);
+            container.addView(accentBar);
+
+            layout.addView(container);
+
             color++;
-            layout.addView(textView);
         }
 
         float density = this.getResources().getDisplayMetrics().density;

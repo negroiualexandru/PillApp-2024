@@ -1,6 +1,7 @@
 package com.example.pillapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
@@ -8,9 +9,12 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -109,45 +113,103 @@ public class PillViewActivity extends AppCompatActivity {
         layout.setOrientation(LinearLayout.VERTICAL);
         int size = user.pills.size();
 
+        //define density
+        float density = this.getResources().getDisplayMetrics().density;
+        int dp = (int) (density * 50);
+
         for (int i = 0; i < size; i++) {
-            //convert pixels to dp
-            float density = this.getResources().getDisplayMetrics().density;
-            int dp = (int) (density * 10);
+            String pillName = user.pills.get(i).pillName;
+            String pillTiming = String.valueOf(user.pills.get(i).pillTiming);
 
-            //set the text
+            CardView card = new CardView(this);
+            LinearLayout.LayoutParams cardParams = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+            );
+            // Apply margin to the CardView itself to create space between cards
+            cardParams.setMargins(0, (int) getResources().getDisplayMetrics().density * 8, 0, 0); // 8dp top margin
+            card.setLayoutParams(cardParams);
+            card.setRadius(20f);
+            card.setCardElevation(8f);
+            card.setUseCompatPadding(true);
+
+            // Inner container for card content
+            LinearLayout pillLayout = new LinearLayout(this);
+            LinearLayout.LayoutParams pillLayoutParams = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+            );
+            pillLayout.setLayoutParams(pillLayoutParams);
+            pillLayout.setOrientation(LinearLayout.VERTICAL);
+            // Add padding to the inner layout
+            pillLayout.setPadding((int) getResources().getDisplayMetrics().density * 16, // 16dp left padding
+                    (int) getResources().getDisplayMetrics().density * 16, // 16dp top padding
+                    (int) getResources().getDisplayMetrics().density * 16, // 16dp right padding
+                    (int) getResources().getDisplayMetrics().density * 16); // 16dp bottom padding
+
+            // Pill info text
             TextView textView = new TextView(this);
-            String message = user.pills.get(i).pillName + ": take 1 every " +
-                    user.pills.get(i).pillTiming + " hours";
+            String message = pillName + ": take 1 every " + pillTiming + " hours";
             textView.setText(message);
+            textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
+            textView.setTypeface(Typeface.DEFAULT_BOLD);
+            textView.setTextColor(Color.parseColor("#2C3E50"));
 
-            //set the styling
-            textView.setPadding(dp,dp,dp,dp);
-            textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 25);
+            // Horizontal button row
+            LinearLayout buttonRow = new LinearLayout(this);
+            LinearLayout.LayoutParams buttonRowParams = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+            );
+            buttonRowParams.setMargins(0, (int) getResources().getDisplayMetrics().density * 8, 0, 0); // 8dp top margin
+            buttonRow.setLayoutParams(buttonRowParams);
+            buttonRow.setOrientation(LinearLayout.HORIZONTAL);
+            buttonRow.setGravity(Gravity.END); // Aligns buttons to the right
 
-            //add Button
-            Button button = new Button(this);
-            button.setText("Delete " + user.pills.get(i).pillName);
-            button.setPadding(dp,dp,dp,dp);
-            button.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 25);
+            // Delete button
+            Button deleteButton = new Button(this);
+            LinearLayout.LayoutParams deleteButtonParams = new LinearLayout.LayoutParams(
+                    (int) getResources().getDisplayMetrics().density * 80, // 80dp width
+                    (int) getResources().getDisplayMetrics().density * 40  // 40dp height
+            );
+            deleteButton.setLayoutParams(deleteButtonParams);
+            deleteButton.setText("Delete");
+            deleteButton.setBackgroundColor(Color.parseColor("#E74C3C"));
+            deleteButton.setTextColor(Color.WHITE);
+            deleteButton.setAllCaps(false);
 
-            String nameOfPill = user.pills.get(i).pillName;
-            button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    database.deleteUserPill(username, nameOfPill);
-                    //reloads page
-                    finish();
-                    overridePendingTransition(0, 0);
-                    startActivity(getIntent());
-                    overridePendingTransition(0, 0);
-                }
+            deleteButton.setOnClickListener(view -> {
+                database.deleteUserPill(username, pillName);
+                finish();
+                overridePendingTransition(0, 0);
+                startActivity(getIntent());
+                overridePendingTransition(0, 0);
             });
 
-            //add button that is used to mark that you took a pill
+            // Consume button
             Button consumeButton = new Button(this);
-            consumeButton.setText("Take " + user.pills.get(i).pillName);
-            consumeButton.setPadding(dp,dp,dp,dp);
-            consumeButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 25);
+            LinearLayout.LayoutParams consumeButtonParams = new LinearLayout.LayoutParams(
+                    (int) getResources().getDisplayMetrics().density * 80, // 80dp width
+                    (int) getResources().getDisplayMetrics().density * 40  // 40dp height
+            );
+            consumeButtonParams.setMargins((int) getResources().getDisplayMetrics().density * 8, 0, 0, 0); // 8dp left margin
+            consumeButton.setLayoutParams(consumeButtonParams);
+            consumeButton.setText("Take");
+            consumeButton.setBackgroundColor(Color.parseColor("#27AE60"));
+            consumeButton.setTextColor(Color.WHITE);
+            consumeButton.setAllCaps(false);
+
+            // Add buttons to row
+            buttonRow.addView(deleteButton);
+            buttonRow.addView(consumeButton);
+
+            // Add everything into pill card
+            pillLayout.addView(textView);
+            pillLayout.addView(buttonRow);
+            card.addView(pillLayout);
+
+            // Finally add card to container
+            layout.addView(card);
 
             //add a history to the database
             int timingOfPill = user.pills.get(i).pillTiming;
@@ -159,19 +221,12 @@ public class PillViewActivity extends AppCompatActivity {
                     calendar.setTime(date);
                     int hour = calendar.get(Calendar.HOUR);
                     int min = calendar.get(Calendar.MINUTE);
-                    database.addConsumption(user.username, nameOfPill, timingOfPill, hour, min);
+                    database.addConsumption(user.username, pillName, timingOfPill, hour, min);
                     Toast.makeText(getApplicationContext(), "Consumption Recorded",
                             Toast.LENGTH_SHORT).show();
                 }
             });
-
-            layout.addView(textView);
-            layout.addView(consumeButton);
-            layout.addView(button);
         }
-
-        float density = this.getResources().getDisplayMetrics().density;
-        int dp = (int) (density * 50);
 
         //add buffer for scroll
         TextView buffer = new TextView(this);

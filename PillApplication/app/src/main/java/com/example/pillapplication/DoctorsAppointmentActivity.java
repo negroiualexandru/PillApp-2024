@@ -1,16 +1,21 @@
 package com.example.pillapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.SQLException;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.*;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
@@ -20,7 +25,7 @@ public class DoctorsAppointmentActivity extends AppCompatActivity {
     Button allPillsButton;
     Button yourPillsButton;
     Button historyButton;
-    Button addAppointmentButton;
+    FloatingActionButton addAppointmentButton;
     User user;
     public Bundle retrieve = null;
     ScrollView scroll;
@@ -228,60 +233,86 @@ public class DoctorsAppointmentActivity extends AppCompatActivity {
     }
 
     public void display(LinearLayout layout, int size, ArrayList<Appointment> appointments) {
-        for (int i = 0; i < size; i++) {
-            //convert pixels to dp
+            // Convert pixels to dp once
             float density = this.getResources().getDisplayMetrics().density;
             int dp = (int) (density * 10);
 
-            //set the text
-            TextView textView = new TextView(this);
-            String message;
-            if (appointments.get(i).min <= 9) {
-                // if one digit timing
-                message = "Appointment with " + appointments.get(i).doctorName +
-                        "\n on " + appointments.get(i).month + "/" + appointments.get(i).day + "/" +
-                        appointments.get(i).year + " at " + appointments.get(i).hour
-                        + ":0" + appointments.get(i).min;
-            } else {
-                //if 2 digit timing
-                message = "Appointment with " + appointments.get(i).doctorName +
-                        "\n on " + appointments.get(i).month + "/" + appointments.get(i).day + "/" +
-                        appointments.get(i).year + " at " + appointments.get(i).hour
-                        + ":" + appointments.get(i).min;
-            }
-            textView.setText(message);
-            textView.setGravity(Gravity.CENTER);
+            for (int i = 0; i < size; i++) {
+                Appointment appt = appointments.get(i);
 
-            //set the styling
-            textView.setPadding(dp,dp,dp,dp);
-            textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 25);
+                // Format the appointment time string
+                String formattedTime = appt.min < 10
+                        ? appt.hour + ":0" + appt.min
+                        : appt.hour + ":" + appt.min;
 
-            //add button
-            Button button = new Button(this);
-            button.setText("Delete Appointment");
-            button.setPadding(dp,dp,dp,dp);
-            button.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 25);
+                String message = "Appointment with " + appt.doctorName +
+                        "\nOn " + appt.month + "/" + appt.day + "/" + appt.year +
+                        " at " + formattedTime;
 
-            //add button functionality
-            String name = appointments.get(i).doctorName;
-            int year = appointments.get(i).year;
-            int month = appointments.get(i).month;
-            int day = appointments.get(i).day;
-            int hour = appointments.get(i).hour;
-            int min = appointments.get(i).min;
-            button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    database.deleteAppointment(user.username, name, year, month, day, hour, min);
+                CardView card = new CardView(this);
+                LinearLayout.LayoutParams cardParams = new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT
+                );
+                cardParams.setMargins(dp, dp, dp, dp);
+                card.setLayoutParams(cardParams);
+                card.setRadius(20f);
+                card.setCardElevation(8f);
+                card.setUseCompatPadding(true);
+
+                // --- Inner container ---
+                LinearLayout container = new LinearLayout(this);
+                container.setOrientation(LinearLayout.VERTICAL);
+                container.setPadding(dp * 2, dp * 2, dp * 2, dp * 2);
+
+                // --- Appointment details text ---
+                TextView textView = new TextView(this);
+                textView.setText(message);
+                textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
+                textView.setTypeface(Typeface.DEFAULT_BOLD);
+                textView.setTextColor(Color.parseColor("#2C3E50"));
+                textView.setGravity(Gravity.START);
+
+                // --- Button row ---
+                LinearLayout buttonRow = new LinearLayout(this);
+                buttonRow.setOrientation(LinearLayout.HORIZONTAL);
+                buttonRow.setGravity(Gravity.END);
+
+                // Delete button
+                Button deleteButton = new Button(this);
+                deleteButton.setText("Delete");
+                deleteButton.setBackgroundColor(Color.parseColor("#E74C3C"));
+                deleteButton.setTextColor(Color.WHITE);
+                deleteButton.setAllCaps(false);
+
+                // Delete functionality
+                deleteButton.setOnClickListener(view -> {
+                    database.deleteAppointment(
+                            user.username,
+                            appt.doctorName,
+                            appt.year,
+                            appt.month,
+                            appt.day,
+                            appt.hour,
+                            appt.min
+                    );
                     finish();
                     overridePendingTransition(0, 0);
                     startActivity(getIntent());
                     overridePendingTransition(0, 0);
-                }
-            });
+                });
 
-            layout.addView(textView);
-            layout.addView(button);
-        }
+                // Add widgets into hierarchy
+                buttonRow.addView(deleteButton);
+                container.addView(textView);
+                container.addView(buttonRow);
+                card.addView(container);
+                layout.addView(card);
+            }
+
+            // Optional: add buffer space at the bottom of the scroll
+            TextView buffer = new TextView(this);
+            buffer.setHeight((int) (density * 50));
+            layout.addView(buffer);
     }
 }
